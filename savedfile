@@ -1,0 +1,7 @@
+#H:\HandsOnDocker
+FROM maven:3.6.0-jdk-8-alpine
+WORKDIR /usr/share/udemy
+COPY src /usr/share/udemy
+COPY pom.xml /usr/share/udemy
+COPY testng.xml /usr/share/udemy
+RUN mvn -f /usr/share/udemy/pom.xml clean test -DskipTests=true

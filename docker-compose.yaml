@@ -1,0 +1,30 @@
+version: '3'
+services:
+    hub:
+        image: selenium/hub
+        ports:
+            - "4444:4444"
+    chrome:
+        image: selenium/node-chrome
+        depends_on:
+            - hub
+        environment:
+            - HUB_HOST=hub
+    firefox:
+        image: selenium/node-firefox
+        shm_size: '1gb'
+        depends_on:
+            - hub
+        environment:
+            - HUB_HOST=hub
+    testng-module:
+        image: manish5243/selenium-docker
+        depends_on:
+            - chrome
+            - firefox
+        environment:
+            - BROWSER=firefox
+            - HUB_HOST=hub
+            - MODULE=testng.xml
+        volumes:
+            - ./target/output-result:/usr/share/udemy/test-output
